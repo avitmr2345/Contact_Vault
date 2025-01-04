@@ -15,15 +15,12 @@
 
 <body class="dark:bg-gray-800 bg-gray-100 dark:text-white">
     <!-- common header -->
-    <div data-th-replace="navbar :: navbar"></div>
+    <div data-th-replace="~{navbar :: navbar}"></div>
 
     <!-- main content -->
     <div class="p-4">
         <section data-th-replace="${content}"></section>
     </div>
-
-    <!-- common footer -->
-    <footer class="p-4">Footer</footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script data-th-src="@{'js/script.js'}"></script>
