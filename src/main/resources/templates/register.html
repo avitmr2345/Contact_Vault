@@ -21,12 +21,12 @@
                     </p>
 
                     <!-- form -->
-                    <form class="mt-5">
+                    <form data-th-action="@{'/signup'}" method="post" data-th-object="${userForm}" class="mt-5">
                         <!-- name  -->
                         <div class="mb-3">
                             <label for="name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" id="name"
+                            <input type="text" id="name" data-th-field="*{name}"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Enter here" required />
                         </div>
@@ -34,7 +34,7 @@
                         <div class="mb-3">
                             <label for="email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                            <input type="email" id="email"
+                            <input data-th-field="*{email}" type="email" id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="name@gmail.com" required />
                         </div>
@@ -43,7 +43,7 @@
                             <label for="password"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
                                 Password</label>
-                            <input type="password" id="password"
+                            <input data-th-field="*{password}" type="password" id="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                         </div>
@@ -52,7 +52,7 @@
                             <label for="phone"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact
                                 Number</label>
-                            <input type="text" id="phone"
+                            <input data-th-field="*{phoneNumber}" type="text" id="phone"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required />
                         </div>
@@ -62,7 +62,7 @@
                             <label for="about"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Write something
                                 about yourself</label>
-                            <textarea id="about" rows="3"
+                            <textarea data-th-field="*{about}" id="about" rows="3"
                                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Write here..."></textarea>
                         </div>
