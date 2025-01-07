@@ -2,6 +2,7 @@ package com.scv.contact_vault.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import com.scv.contact_vault.helpers.Message;
 import com.scv.contact_vault.helpers.MessageType;
 import com.scv.contact_vault.services.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class PageController {
@@ -59,8 +61,13 @@ public class PageController {
     }
 
     @PostMapping("/signup")
-    public String processRegister(@ModelAttribute UserForm userForm, HttpSession session) {
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult theBindingResult,
+            HttpSession session) {
         System.out.println("Processing registration");
+
+        if (theBindingResult.hasErrors()) {
+            return "register";
+        }
 
         User user = new User();
         user.setName(userForm.getName());
