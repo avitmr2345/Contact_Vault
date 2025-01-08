@@ -5,8 +5,10 @@ import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.scv.contact_vault.entity.User;
+import com.scv.contact_vault.helpers.AppConstants;
 import com.scv.contact_vault.helpers.ResourceNotFoundException;
 import com.scv.contact_vault.repositories.UserRepo;
 
@@ -15,8 +17,11 @@ public class UserServiceImpl implements UserService {
 
     private UserRepo userRepo;
 
-    public UserServiceImpl(UserRepo theUserRepo) {
+    private PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepo theUserRepo, PasswordEncoder thePasswordEncoder) {
         userRepo = theUserRepo;
+        passwordEncoder = thePasswordEncoder;
     }
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -25,6 +30,8 @@ public class UserServiceImpl implements UserService {
     public User saveUser(User user) {
         String userId = UUID.randomUUID().toString();
         user.setUserId(userId);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoleList(List.of(AppConstants.ROLE_USER));
 
         logger.info(user.getProvider().toString());
 
