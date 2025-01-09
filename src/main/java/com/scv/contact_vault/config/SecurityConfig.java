@@ -3,7 +3,6 @@ package com.scv.contact_vault.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,7 +45,15 @@ public class SecurityConfig {
             authorize.anyRequest().permitAll();
         });
 
-        http.formLogin(Customizer.withDefaults());
+        http.formLogin(formLogin -> {
+            formLogin.loginPage("/login");
+            formLogin.loginProcessingUrl("/authenticate");
+            formLogin.defaultSuccessUrl("/user/dashboard", true);
+            formLogin.usernameParameter("email");
+            formLogin.passwordParameter("password");
+        }).csrf(csrf -> csrf.disable());
+
+        http.logout(logout -> logout.permitAll());
 
         return http.build();
     }
