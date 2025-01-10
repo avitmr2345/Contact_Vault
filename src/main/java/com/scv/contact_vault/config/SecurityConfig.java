@@ -14,8 +14,14 @@ public class SecurityConfig {
     @SuppressWarnings("unused")
     private CustomSecurityUserDetailService userDetailService;
 
-    public SecurityConfig(CustomSecurityUserDetailService theCustomSecurityUserDetailService) {
+    private OAuthAuthenticationSuccessHandler handler;
+
+    public SecurityConfig(CustomSecurityUserDetailService theCustomSecurityUserDetailService,
+            OAuthAuthenticationSuccessHandler theOAuthAuthenticationSuccessHandler) {
+
         userDetailService = theCustomSecurityUserDetailService;
+        handler = theOAuthAuthenticationSuccessHandler;
+
     }
 
     @Bean
@@ -37,6 +43,11 @@ public class SecurityConfig {
             formLogin.usernameParameter("email");
             formLogin.passwordParameter("password");
         }).csrf(csrf -> csrf.disable());
+
+        http.oauth2Login(oauth -> {
+            oauth.loginPage("/login");
+            oauth.successHandler(handler);
+        });
 
         http.logout(logout -> logout.permitAll());
 
