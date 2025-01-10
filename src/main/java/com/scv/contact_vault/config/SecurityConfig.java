@@ -39,7 +39,7 @@ public class SecurityConfig {
         http.formLogin(formLogin -> {
             formLogin.loginPage("/login");
             formLogin.loginProcessingUrl("/authenticate");
-            formLogin.defaultSuccessUrl("/user/dashboard", true);
+            formLogin.defaultSuccessUrl("/user/profile", true);
             formLogin.usernameParameter("email");
             formLogin.passwordParameter("password");
         }).csrf(csrf -> csrf.disable());
