@@ -6,22 +6,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import com.scv.contact_vault.services.CustomSecurityUserDetailService;
 
 @Configuration
 public class SecurityConfig {
 
-    @SuppressWarnings("unused")
-    private CustomSecurityUserDetailService userDetailService;
-
     private OAuthAuthenticationSuccessHandler handler;
 
-    public SecurityConfig(CustomSecurityUserDetailService theCustomSecurityUserDetailService,
-            OAuthAuthenticationSuccessHandler theOAuthAuthenticationSuccessHandler) {
-
-        userDetailService = theCustomSecurityUserDetailService;
+    public SecurityConfig(OAuthAuthenticationSuccessHandler theOAuthAuthenticationSuccessHandler) {
         handler = theOAuthAuthenticationSuccessHandler;
-
     }
 
     @Bean
