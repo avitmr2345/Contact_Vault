@@ -9,39 +9,39 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "contacts")
 public class Contact {
 
     @Id
     private String id;
 
-    @SuppressWarnings("unused")
     private String name;
 
-    @SuppressWarnings("unused")
     private String email;
 
-    @SuppressWarnings("unused")
     private String phoneNumber;
 
-    @SuppressWarnings("unused")
     private String address;
 
-    @SuppressWarnings("unused")
     private String picture;
 
     @Column(length = 1000)
     private String description;
 
-    @SuppressWarnings("unused")
     private boolean favorite = false;
 
-    @SuppressWarnings("unused")
-    private String websiteLink;
+    private String instagramUsername;
 
-    @SuppressWarnings("unused")
     private String linkedInLink;
 
     @ManyToOne
