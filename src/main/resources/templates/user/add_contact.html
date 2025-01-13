@@ -28,7 +28,7 @@
                             client
                         </p>
                         <form class="mt-6" data-th-action="@{'/user/contacts/save'}" data-th-object="${contactForm}"
-                            method="post">
+                            method="post" enctype="multipart/form-data">
                             <!-- name form -->
                             <div class="mb-3">
                                 <label for="name"
@@ -79,8 +79,8 @@
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="XXXXXXXXXX" />
                                 </div>
-                                <p class="text-red-600 dark:text-red-500" data-th-if="${#fields.hasErrors('phoneNumber')}"
-                                    data-th-errors="*{phoneNumber}">
+                                <p class="text-red-600 dark:text-red-500"
+                                    data-th-if="${#fields.hasErrors('phoneNumber')}" data-th-errors="*{phoneNumber}">
                                 </p>
                             </div>
                             <!-- address -->
@@ -138,11 +138,14 @@
                             <!-- contact image field -->
                             <div class="mb-3">
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    for="contact_image">Image
+                                    for="profile_image_input">Image
                                 </label>
                                 <input
-                                    class="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                    id="contact_image" type="file" />
+                                    class="block w-full mb-2 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                    id="profile_image_input" data-th-field="*{profileImage}" type="file" />
+
+                                <img class="max-h-52 mx-auto rounded-lg shadow m-3" src="" id="upload_image_preview"
+                                    alt="" />
                             </div>
                             <!-- favorite checkbox -->
                             <div class="flex items-center mb-3">
@@ -167,6 +170,7 @@
             </div>
         </div>
     </div>
+    <script data-th-src="@{'/js/profileImageInjectScript.js'}"></script>
     <script>
         console.log("add contact page");
     </script>

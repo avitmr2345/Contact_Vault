@@ -1,5 +1,6 @@
 package com.scv.contact_vault.controllers;
 
+import java.util.UUID;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import com.scv.contact_vault.helpers.Helper;
 import com.scv.contact_vault.helpers.Message;
 import com.scv.contact_vault.helpers.MessageType;
 import com.scv.contact_vault.services.ContactService;
+import com.scv.contact_vault.services.ImageService;
 import com.scv.contact_vault.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -27,9 +29,13 @@ public class ContactController {
 
     private UserService userService;
 
-    public ContactController(ContactService theContactService, UserService theUserService) {
+    private ImageService imageService;
+
+    public ContactController(ContactService theContactService, UserService theUserService,
+            ImageService theImageService) {
         contactService = theContactService;
         userService = theUserService;
+        imageService = theImageService;
     }
 
     @GetMapping("/add")
@@ -54,6 +60,9 @@ public class ContactController {
         String username = Helper.getEmailOfLoggedInUser(authentication);
         User user = userService.getUserByEmail(username);
 
+        String filename = UUID.randomUUID().toString();
+        String fileURL = imageService.uploadImage(contactForm.getProfileImage(), filename);
+
         Contact contact = new Contact();
         contact.setName(contactForm.getName());
         contact.setEmail(contactForm.getEmail());
@@ -62,6 +71,7 @@ public class ContactController {
         contact.setDescription(contactForm.getDescription());
         contact.setInstagramUsername(contactForm.getInstagramUsername());
         contact.setLinkedInLink(contactForm.getLinkedInLink());
+        contact.setPicture(fileURL);
         contact.setFavourite(contactForm.isFavourite());
         contact.setUser(user);
 
