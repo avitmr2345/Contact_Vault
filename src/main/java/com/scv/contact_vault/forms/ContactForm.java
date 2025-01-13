@@ -1,6 +1,7 @@
 package com.scv.contact_vault.forms;
 
 import org.springframework.web.multipart.MultipartFile;
+import com.scv.contact_vault.validators.ValidProfileImage;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -42,5 +43,6 @@ public class ContactForm {
 
     private String linkedInLink;
 
+    @ValidProfileImage
     private MultipartFile profileImage;
 }
