@@ -38,7 +38,7 @@ public class Contact {
     @Column(length = 1000)
     private String description;
 
-    private boolean favorite = false;
+    private boolean favourite = false;
 
     private String instagramUsername;
 

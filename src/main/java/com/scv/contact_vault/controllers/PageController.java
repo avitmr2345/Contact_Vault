@@ -71,6 +71,10 @@ public class PageController {
         System.out.println("Processing registration");
 
         if (theBindingResult.hasErrors()) {
+            session.setAttribute("message", Message.builder()
+                    .content("Please correct the following errors")
+                    .type(MessageType.red)
+                    .build());
             return "register";
         }
 
