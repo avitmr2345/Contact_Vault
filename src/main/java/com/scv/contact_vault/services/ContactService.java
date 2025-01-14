@@ -1,6 +1,7 @@
 package com.scv.contact_vault.services;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
 import com.scv.contact_vault.entity.Contact;
 import com.scv.contact_vault.entity.User;
 
@@ -20,5 +21,5 @@ public interface ContactService {
 
     List<Contact> getByUserId(String userId);
 
-    List<Contact> getByUser(User user);
+    Page<Contact> getByUser(User user, int page, int size, String sortBy, String direction);
 }
