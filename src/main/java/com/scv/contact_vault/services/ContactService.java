@@ -2,6 +2,7 @@ package com.scv.contact_vault.services;
 
 import java.util.List;
 import com.scv.contact_vault.entity.Contact;
+import com.scv.contact_vault.entity.User;
 
 public interface ContactService {
 
@@ -18,4 +19,6 @@ public interface ContactService {
     List<Contact> search(String name, String email, String phoneNumber);
 
     List<Contact> getByUserId(String userId);
+
+    List<Contact> getByUser(User user);
 }

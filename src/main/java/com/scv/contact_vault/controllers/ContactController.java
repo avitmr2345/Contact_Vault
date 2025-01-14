@@ -1,5 +1,6 @@
 package com.scv.contact_vault.controllers;
 
+import java.util.List;
 import java.util.UUID;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -85,5 +86,18 @@ public class ContactController {
         session.setAttribute("message", message);
 
         return "redirect:/user/contacts/add";
+    }
+
+    @GetMapping()
+    public String viewContacts(Model model, Authentication authentication) {
+        String username = Helper.getEmailOfLoggedInUser(authentication);
+
+        User user = userService.getUserByEmail(username);
+
+        List<Contact> contacts = contactService.getByUser(user);
+
+        model.addAttribute("contacts", contacts);
+
+        return "user/contacts";
     }
 }

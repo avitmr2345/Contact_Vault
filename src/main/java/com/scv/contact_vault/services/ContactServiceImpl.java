@@ -3,6 +3,7 @@ package com.scv.contact_vault.services;
 import java.util.*;
 import org.springframework.stereotype.Service;
 import com.scv.contact_vault.entity.Contact;
+import com.scv.contact_vault.entity.User;
 import com.scv.contact_vault.helpers.ResourceNotFoundException;
 import com.scv.contact_vault.repositories.ContactRepo;
 
@@ -53,5 +54,10 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public List<Contact> getByUserId(String userId) {
         return contactRepo.findByUserId(userId);
+    }
+
+    @Override
+    public List<Contact> getByUser(User user) {
+        return contactRepo.findByUser(user);
     }
 }
