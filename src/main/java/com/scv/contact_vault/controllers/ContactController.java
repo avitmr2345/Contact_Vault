@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -150,5 +151,18 @@ public class ContactController {
         model.addAttribute("contactSearchForm", contactSearchForm);
 
         return "user/search";
+    }
+
+    @GetMapping("/delete/{contactId}")
+    public String deleteContact(@PathVariable String contactId, HttpSession session) {
+        contactService.delete(contactId);
+
+        session.setAttribute("message",
+                Message.builder()
+                        .content("Contact has been deleted successfully !")
+                        .type(MessageType.green)
+                        .build());
+
+        return "redirect:/user/contacts";
     }
 }

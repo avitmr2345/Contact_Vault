@@ -80,3 +80,20 @@ async function loadContactData(id) {
     console.log("Error: ", error);
   }
 }
+
+// sweetalert
+async function deleteContact(id) {
+  Swal.fire({
+    title: "Do you want to delete the contact ?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Delete",
+    confirmButtonColor: "#655cc9",
+    cancelButtonColor: "#636c74",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const url = `${baseURL}/user/contacts/delete/` + id;
+      window.location.replace(url);
+    }
+  });
+}

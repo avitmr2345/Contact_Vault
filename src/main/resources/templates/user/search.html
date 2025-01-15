@@ -96,11 +96,14 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <div>
-                                            <a href="">
+                                             <!-- delete contact -->
+                                             <button data-th-onclick="deleteContact([[${c.id}]])">
                                                 <i class="fa-solid w-6 h-6 fa-trash"></i>
-                                            </a>
+                                            </button>
+
                                             <a href=""> <i class="fa-solid w-6 h-6 fa-pen"></i></a>
-                                            <!-- viewcontact -->
+                                            
+                                            <!-- view contact -->
                                             <button th:onclick="loadContactData([[${c.id}]])">
                                                 <i class="fa-solid fa-eye"></i>
                                             </button>
