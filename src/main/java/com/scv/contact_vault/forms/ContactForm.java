@@ -45,4 +45,6 @@ public class ContactForm {
 
     @ValidProfileImage
     private MultipartFile profileImage;
+
+    private String picture;
 }

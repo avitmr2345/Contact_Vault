@@ -165,4 +165,61 @@ public class ContactController {
 
         return "redirect:/user/contacts";
     }
+
+    @GetMapping("/view/{contactId}")
+    public String updateContactFormView(@PathVariable String contactId, Model model) {
+
+        Contact contact = contactService.getById(contactId);
+        ContactForm contactForm = new ContactForm();
+
+        contactForm.setName(contact.getName());
+        contactForm.setEmail(contact.getEmail());
+        contactForm.setPhoneNumber(contact.getPhoneNumber());
+        contactForm.setAddress(contact.getAddress());
+        contactForm.setDescription(contact.getDescription());
+        contactForm.setFavourite(contact.isFavourite());
+        contactForm.setInstagramUsername(contact.getInstagramUsername());
+        contactForm.setLinkedInLink(contact.getLinkedInLink());
+        contactForm.setPicture(contact.getPicture());
+
+        model.addAttribute("contactForm", contactForm);
+        model.addAttribute("contactId", contactId);
+
+        return "user/update_contact";
+    }
+
+    @PostMapping(value = "/update/{contactId}")
+    public String updateContact(@PathVariable String contactId, @Valid @ModelAttribute ContactForm contactForm,
+            BindingResult bindingResult, Model model, HttpSession session) {
+
+        if (bindingResult.hasErrors()) {
+            return "user/update_contact";
+        }
+
+        Contact contact = contactService.getById(contactId);
+        contact.setId(contactId);
+        contact.setName(contactForm.getName());
+        contact.setEmail(contactForm.getEmail());
+        contact.setPhoneNumber(contactForm.getPhoneNumber());
+        contact.setAddress(contactForm.getAddress());
+        contact.setDescription(contactForm.getDescription());
+        contact.setInstagramUsername(contactForm.getInstagramUsername());
+        contact.setLinkedInLink(contactForm.getLinkedInLink());
+        if (contactForm.getProfileImage() != null && !contactForm.getProfileImage().isEmpty()) {
+            String fileName = UUID.randomUUID().toString();
+            String fileUrl = imageService.uploadImage(contactForm.getProfileImage(), fileName);
+
+            contact.setPicture(fileUrl);
+            contactForm.setPicture(fileUrl);
+        } else {
+            System.out.println("File is empty");
+        }
+        contact.setFavourite(contactForm.isFavourite());
+
+        contactService.update(contact);
+
+        session.setAttribute("message", Message.builder().content("Contact Updated !").type(MessageType.green).build());
+
+        return "redirect:/user/contacts/view/" + contactId;
+    }
 }
