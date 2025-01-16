@@ -65,9 +65,6 @@ public class ContactController {
         String username = Helper.getEmailOfLoggedInUser(authentication);
         User user = userService.getUserByEmail(username);
 
-        String filename = UUID.randomUUID().toString();
-        String fileURL = imageService.uploadImage(contactForm.getProfileImage(), filename);
-
         Contact contact = new Contact();
         contact.setName(contactForm.getName());
         contact.setEmail(contactForm.getEmail());
@@ -76,7 +73,12 @@ public class ContactController {
         contact.setDescription(contactForm.getDescription());
         contact.setInstagramUsername(contactForm.getInstagramUsername());
         contact.setLinkedInLink(contactForm.getLinkedInLink());
-        contact.setPicture(fileURL);
+        if (contactForm.getProfileImage() != null && !contactForm.getProfileImage().isEmpty()) {
+            String filename = UUID.randomUUID().toString();
+            String fileURL = imageService.uploadImage(contactForm.getProfileImage(), filename);
+
+            contact.setPicture(fileURL);
+        }
         contact.setFavourite(contactForm.isFavourite());
         contact.setUser(user);
 

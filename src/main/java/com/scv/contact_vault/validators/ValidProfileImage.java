@@ -15,5 +15,7 @@ public @interface ValidProfileImage {
 
         Class<?>[] groups() default {};
 
+        boolean checkEmpty() default true;
+
         Class<? extends Payload>[] payload() default {};
 }
