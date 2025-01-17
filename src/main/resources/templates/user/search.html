@@ -18,12 +18,12 @@
                 <h1 class="text-4xl text-center">Found Contacts</h1>
                 <p class="text-center">List of contacts...</p>
                 <div class="contacts_container p-5">
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <div class="flex md:flex-row flex-col items-center px-4 justify-between bg-white dark:bg-gray-900">
                         <form data-th-object="${contactSearchForm}" action=""
                             data-th-action="@{'/user/contacts/search'}">
 
                             <div class="flex space-x-3 p-5 items-center justify-start flex-column flex-wrap md:flex-row
-                                space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+                        space-y-4 md:space-y-0 pb-4y">
 
                                 <!-- select box   -->
                                 <div>
@@ -53,7 +53,17 @@
                                 </button>
                             </div>
                         </form>
-                        <table data-th-if="${pageContact.totalElements>0}"
+
+                        <div>
+                            <button type="button" onclick="exportData()"
+                                class="px-3 py-2 bg-green-800 text-white rounded">
+                                Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+                        <table id="contact-table" data-th-if="${pageContact.totalElements>0}"
                             class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -154,9 +164,79 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@linways/table-to-excel@1.0.4/dist/tableToExcel.min.js"></script>
     <script data-th-src="@{'/js/contacts.js'}"></script>
     <script>
-        console.log("Search page script");
+        function exportData() {
+
+            const table = document.getElementById("contact-table");
+
+            // Create an array to hold the customized data
+            let data = [];
+
+            // Get all rows from the tbody (excluding header)
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                let rowData = [];
+
+                // Extract Name
+                const nameCell = row.querySelector('th');
+                const name = nameCell ? nameCell.querySelector('.text-base').textContent.trim() : '';
+                rowData.push(name); // Push name to rowData
+
+                // Extract Email
+                const email = nameCell ? nameCell.querySelector('.font-normal').textContent.trim() : '';
+                rowData.push(email);
+
+                // Extract Phone
+                const phoneCell = row.querySelector('td:nth-child(2)');
+                const phone = phoneCell ? phoneCell.textContent.trim() : '';
+                rowData.push(phone);
+
+                // Extract LinkedIn Link
+                const linkCell = row.querySelector('td:nth-child(3)');
+                const linkElement = linkCell ? linkCell.querySelector('a') : null;
+                const link = linkElement ? linkElement.href : 'No Link';
+                rowData.push(link);
+
+                // Check if Favourite
+                const favCell = row.querySelector('td:nth-child(5)');
+                const favourite = favCell && favCell.querySelector('.fa-star') ? 'Favourite' : 'Not Favourite';
+                rowData.push(favourite);
+
+                // Push the row data to the data array
+                data.push(rowData);
+            });
+
+            // Create a new table for export with custom headers
+            const exportTable = document.createElement('table');
+
+            // Add custom headers to the export table
+            const headerRow = exportTable.insertRow();
+            headerRow.insertCell(0).textContent = "Name";
+            headerRow.insertCell(1).textContent = "Email";
+            headerRow.insertCell(2).textContent = "Phone";
+            headerRow.insertCell(3).textContent = "Link";
+            headerRow.insertCell(4).textContent = "Favourite";
+
+            // Add the rows with extracted data
+            data.forEach(rowData => {
+                const row = exportTable.insertRow();
+                rowData.forEach((cellData, index) => {
+                    const cell = row.insertCell(index);
+                    cell.textContent = cellData;
+                });
+            });
+
+            // Export the table as Excel
+            TableToExcel.convert(exportTable, {
+                name: "contacts.xlsx",
+                sheet: {
+                    name: "Contacts",
+                },
+            });
+        }
     </script>
 </body>
 
