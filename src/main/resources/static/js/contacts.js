@@ -97,3 +97,80 @@ async function deleteContact(id) {
     }
   });
 }
+
+function exportData() {
+  const table = document.getElementById("contact-table");
+
+  // Create an array to hold the customized data
+  let data = [];
+
+  // Get all rows from the tbody (excluding header)
+  const rows = table.querySelectorAll("tbody tr");
+
+  rows.forEach((row) => {
+    let rowData = [];
+
+    // Extract Name
+    const nameCell = row.querySelector("th");
+    const name = nameCell
+      ? nameCell.querySelector(".text-base").textContent.trim()
+      : "";
+    rowData.push(name); // Push name to rowData
+
+    // Extract Email
+    const email = nameCell
+      ? nameCell.querySelector(".font-normal").textContent.trim()
+      : "";
+    rowData.push(email);
+
+    // Extract Phone
+    const phoneCell = row.querySelector("td:nth-child(2)");
+    const phone = phoneCell ? phoneCell.textContent.trim() : "";
+    rowData.push(phone);
+
+    // Extract LinkedIn Link
+    const linkCell = row.querySelector("td:nth-child(3)");
+    const linkElement = linkCell ? linkCell.querySelector("a") : null;
+    const link = linkElement ? linkElement.href : "No Link";
+    rowData.push(link);
+
+    // Check if Favourite
+    const favCell = row.querySelector("td:nth-child(5)");
+    const favourite =
+      favCell && favCell.querySelector(".fa-star")
+        ? "Favourite"
+        : "Not Favourite";
+    rowData.push(favourite);
+
+    // Push the row data to the data array
+    data.push(rowData);
+  });
+
+  // Create a new table for export with custom headers
+  const exportTable = document.createElement("table");
+
+  // Add custom headers to the export table
+  const headerRow = exportTable.insertRow();
+  headerRow.insertCell(0).textContent = "Name";
+  headerRow.insertCell(1).textContent = "Email";
+  headerRow.insertCell(2).textContent = "Phone";
+  headerRow.insertCell(3).textContent = "Link";
+  headerRow.insertCell(4).textContent = "Favourite";
+
+  // Add the rows with extracted data
+  data.forEach((rowData) => {
+    const row = exportTable.insertRow();
+    rowData.forEach((cellData, index) => {
+      const cell = row.insertCell(index);
+      cell.textContent = cellData;
+    });
+  });
+
+  // Export the table as Excel
+  TableToExcel.convert(exportTable, {
+    name: "contacts.xlsx",
+    sheet: {
+      name: "Contacts",
+    },
+  });
+}
