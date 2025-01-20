@@ -14,16 +14,36 @@
         </div>
 
         <div class="sm:pl-56 pt-20">
-            <div class="flex justify-center flex-col items-center">
-                <h1 class="text-5xl">Welcome to Profile page</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, ratione!</p>
+            <div class="flex items-center justify-center md:pt-16 flex-col">
+                <!--  profie card -->
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg max-w-2xl w-full">
+                    <div class="flex flex-col items-center">
+                        <img data-th-src="@{${loggedInUser.profilePic}}" alt="Profile Photo"
+                            class="w-44 h-44 rounded-full shadow-lg object-cover mb-4">
+                        <h2 class="text-2xl font-semibold mb-2" data-th-text=${loggedInUser.name}></h2>
+                        <p class="text-gray-500 mb-2" data-th-text="${loggedInUser.email}"></p>
+                        <p class="text-gray-500 mb-2" data-th-text="${loggedInUser.phoneNumber}"></p>
+                        <p class="text-gray-500 mb-4 text-center" data-th-text="${loggedInUser.about}"></p>
+                        <div class="w-full flex justify-between">
+                            <p class="text-sm text-gray-500">Email Verified:
+                                <span class="font-medium text-gray-700 dark:text-gray-500" id="email-verified"
+                                    data-th-text="${loggedInUser.emailVerified ? 'YES':'NO'}">
+                                </span>
+                            </p>
+                            <p class="text-sm text-gray-500">Phone Verified:
+                                <span class="font-medium text-gray-700 dark:text-gray-500" id="phone-verified"
+                                    data-th-text="${loggedInUser.phoneVerified ? 'YES':'NO'}">
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        console.log("Profile page");
-    </script>
+        <script>
+            console.log("Profile page");
+        </script>
 </body>
 
 </html>
