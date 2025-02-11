@@ -8,12 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/dashboard")
-    public String userDashboard() {
-        System.out.println("User dashboard");
-        return "user/dashboard";
-    }
-
     @GetMapping("/profile")
     public String userProfile() {
         System.out.println("User profile");
